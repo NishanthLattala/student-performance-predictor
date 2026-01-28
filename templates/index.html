@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: 600;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            grid-column: span 2;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            grid-column: span 2;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Performance Predictor</h1>
+        <form action="/predict" method="post">
+            <div class="form-group">
+                <label for="student_id">Student ID</label>
+                <input type="text" id="student_id" name="student_id" placeholder="e.g. S001" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="final_score">Final Score</label>
+                <input type="number" step="0.01" id="final_score" name="final_score" required>
+            </div>
+
+            <div class="form-group">
+                <label for="grade">Grade</label>
+                <input type="text" id="grade" name="grade" placeholder="e.g. A, B, C" required>
+            </div>
+            
+             <div class="form-group">
+                <label for="pass_fail">Pass/Fail (Original)</label>
+                <select id="pass_fail" name="pass_fail">
+                    <option value="1">Pass</option>
+                    <option value="0">Fail</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="previous_score">Previous Score</label>
+                <input type="number" step="0.01" id="previous_score" name="previous_score" required>
+            </div>
+
+            <div class="form-group">
+                <label for="math_prev_score">Math Prev Score</label>
+                <input type="number" step="0.01" id="math_prev_score" name="math_prev_score" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="science_prev_score">Science Prev Score</label>
+                <input type="number" step="0.01" id="science_prev_score" name="science_prev_score" required>
+            </div>
+
+            <div class="form-group">
+                <label for="language_prev_score">Language Prev Score</label>
+                <input type="number" step="0.01" id="language_prev_score" name="language_prev_score" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="daily_study_hours">Daily Study Hours</label>
+                <input type="number" step="0.1" id="daily_study_hours" name="daily_study_hours" required>
+            </div>
+
+            <div class="form-group">
+                <label for="attendance_percentage">Attendance %</label>
+                <input type="number" step="0.1" id="attendance_percentage" name="attendance_percentage" required>
+            </div>
+
+            <div class="form-group">
+                <label for="homework_completion_rate">Homework Check %</label>
+                <input type="number" step="0.1" id="homework_completion_rate" name="homework_completion_rate" required>
+            </div>
+            
+             <div class="form-group">
+                <label for="sleep_hours">Sleep Hours</label>
+                <input type="number" step="0.1" id="sleep_hours" name="sleep_hours" required>
+            </div>
+
+             <div class="form-group">
+                <label for="screen_time_hours">Screen Time Hours</label>
+                <input type="number" step="0.1" id="screen_time_hours" name="screen_time_hours" required>
+            </div>
+
+             <div class="form-group">
+                <label for="physical_activity_minutes">Physical Activity (min)</label>
+                <input type="number" id="physical_activity_minutes" name="physical_activity_minutes" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="parent_education_level">Parent Education</label>
+                <select id="parent_education_level" name="parent_education_level">
+                    <option value="High School">High School</option>
+                    <option value="College">College</option>
+                    <option value="Bachelor">Bachelor</option>
+                    <option value="Master">Master</option>
+                    <option value="PhD">PhD</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="study_environment">Study Environment</label>
+                 <select id="study_environment" name="study_environment">
+                    <option value="Noisy">Noisy</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Quiet">Quiet</option>
+                </select>
+            </div>
+
+            <button type="submit">Predict Performance</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result {% if 'PASS' in prediction_text %}pass{% else %}fail{% endif %}">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
